@@ -29,6 +29,7 @@
     "@apollo/server-plugin-landing-page-graphql-playground": "^4.0.1",
     "@google-cloud/local-auth": "^3.0.1",
     "@google/generative-ai": "^0.21.0",
+    "@octokit/rest": "^16.43.2",
     "@types/selenium-webdriver": "^4.1.27",
     "axios": "^1.7.7",
     "body-parser": "^1.20.3",

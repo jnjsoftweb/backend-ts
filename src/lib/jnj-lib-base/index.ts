@@ -55,3 +55,9 @@ export {
   moveFile,
   moveFiles,
 } from './builtin.js';
+
+export {
+  exec,
+  exe,
+} from './cli.js';
+
