@@ -31,3 +31,6 @@ export {
   GRAPHQL_URL,
   APP_YOUTUBE_DIR_ROOT,
 };
+
+
+console.log(GRAPHQL_PORT, GRAPHQL_URL);

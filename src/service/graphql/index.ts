@@ -3,9 +3,11 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginLandingPageGraphQLPlayground } from '@apollo/server-plugin-landing-page-graphql-playground'; // Playground 플러그인 임포트
 import { loadJson } from '../../lib/jnj-lib-base';
+import { GRAPHQL_PORT } from '../../__env';
 
-const PACKAGE_JSON = 'C:/JnJ-soft/Projects/internal/backend-node/package.json';
+const PACKAGE_JSON = 'C:/JnJ-soft/Projects/internal/backend-ts/package.json';
 
 // GraphQL 스키마 정의
 const typeDefs = `#graphql
@@ -46,6 +48,15 @@ async function startApolloServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    plugins: [
+      ApolloServerPluginLandingPageGraphQLPlayground({
+        settings: {
+          'editor.theme': 'dark', // 기본 테마
+          'request.credentials': 'include', // credentials 설정
+        },
+      }),
+    ],
+    introspection: true, // Introspection 활성화
   });
 
   // Apollo Server 시작
@@ -53,7 +64,7 @@ async function startApolloServer() {
 
   // Express에 미들웨어 적용
   app.use(
-    '/graphql',
+    '/',
     cors<cors.CorsRequest>(),
     bodyParser.json(),
     expressMiddleware(server, {
@@ -62,9 +73,9 @@ async function startApolloServer() {
   );
 
   // 서버 시작
-  const PORT = process.env.PORT || 4000;
+  const PORT = GRAPHQL_PORT || 4000;
   app.listen(PORT, () => {
-    console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+    console.log(`🚀 Server ready at http://localhost:${PORT}`);
   });
 }
 

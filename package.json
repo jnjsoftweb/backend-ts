@@ -1,7 +1,7 @@
 {
-  "name": "swc-ts",
+  "name": "backend-ts",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend Service in Typescript(SWC) By JnJ-soft",
   "main": "index.js",
   "scripts": {
     "build": "swc ./src -d dist --strip-leading-paths",
@@ -10,7 +10,7 @@
     "dev": "npm run build && npm run start"
   },
   "keywords": [],
-  "author": "",
+  "author": "JnJ-soft",
   "license": "ISC",
   "devDependencies": {
     "@swc/cli": "^0.5.1",
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@apollo/server": "^4.11.2",
+    "@apollo/server-plugin-landing-page-graphql-playground": "^4.0.1",
     "@google-cloud/local-auth": "^3.0.1",
     "@google/generative-ai": "^0.21.0",
     "@types/selenium-webdriver": "^4.1.27",

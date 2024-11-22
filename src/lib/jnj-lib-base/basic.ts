@@ -747,6 +747,11 @@ const now = (options: any) => {
   return now;
 };
 
+const timeFromTimestamp = (timestamp: number) => {
+  const date = new Date(timestamp);
+  return `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+};
+
 /**
  * #source: https://github.com/lodash/lodash/blob/master/delay.js
  * Invokes `func` after `wait` milliseconds. Any additional arguments are
@@ -830,4 +835,5 @@ export {
   delay,
   sleep,
   sleepAsync,
+  timeFromTimestamp
 };

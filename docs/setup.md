@@ -33,6 +33,12 @@ npm install googleapis @google-cloud/local-auth @google/generative-ai --save
 npm install cheerio selenium-webdriver axios install @types/selenium-webdriver @types/selenium-webdriver
 ```
 
+### graphql
+
+```bash
+npm install @apollo/server @apollo/server/standalone @apollo/server-plugin-landing-page-graphql-playground
+```
+
 ```bash
 cd backend-ts
 npm install
