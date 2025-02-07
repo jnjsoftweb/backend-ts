@@ -182,10 +182,10 @@ export {
 
 // & Test AREA
 // &---------------------------------------------------------------------------
-(async () => {
-    const github = new Github('mooninlearn');
-    github.findAllRepos();
-})();
+// (async () => {
+//     const github = new Github('mooninlearn');
+//     github.findAllRepos();
+// })();
 
 // const options = {'repoName': 'svelte-course'}
 // github.cloneRepo(options);

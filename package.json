@@ -29,8 +29,10 @@
     "@apollo/server-plugin-landing-page-graphql-playground": "^4.0.1",
     "@google-cloud/local-auth": "^3.0.1",
     "@google/generative-ai": "^0.21.0",
+    "@nut-tree-fork/nut-js": "^4.2.2",
     "@octokit/rest": "^16.43.2",
     "@types/selenium-webdriver": "^4.1.27",
+    "ahknodejs": "^2.0.0",
     "axios": "^1.7.7",
     "body-parser": "^1.20.3",
     "cheerio": "^1.0.0",
@@ -43,6 +45,9 @@
     "install": "^0.13.0",
     "js-yaml": "^4.1.0",
     "node-xlsx": "^0.24.0",
-    "selenium-webdriver": "^4.26.0"
+    "pocketbase": "^0.21.5",
+    "robotjs": "^0.6.0",
+    "selenium-webdriver": "^4.26.0",
+    "sqlite3": "^5.1.7"
   }
 }

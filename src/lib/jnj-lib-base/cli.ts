@@ -13,4 +13,4 @@ const exe = (cmds: string[]): string[] => {
 export { exec, exe };
 
 // console.log(exec("dir /w"));
-console.log(exec("powershell -Command \"Get-ChildItem | Format-Wide\""));
+// console.log(exec("powershell -Command \"Get-ChildItem | Format-Wide\""));

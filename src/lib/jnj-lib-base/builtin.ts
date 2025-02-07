@@ -35,14 +35,14 @@ const removeBOM = (str: string) => {
   return str
     .replace(/^\uFEFF/gm, '')
     .replace(/^\u00BB\u00BF/gm, '')
-    .replaceAll('\r\n', '\n');
+    .replace(/\r\n/g, '\n');
 };
 
 /**
  * 폴더이름에 포함된 "\\" => "/"
  */
 const slashedFolder = (folderName: string) => {
-  folderName = folderName.replaceAll('\\', '/');
+  folderName = folderName.replace(/\\/g, '/');
   return folderName.endsWith('/') ? folderName.slice(0, -1) : folderName;
 };
 
@@ -85,11 +85,31 @@ const loadJson = (path: string, encoding: BufferEncoding = 'utf8') => {
  */
 const saveFile = (
   path: string,
-  data = '',
-  encoding: BufferEncoding = 'utf-8',
-  overwrite = true
+  data: any = '',
+  { 
+    encoding = 'utf-8',
+    overwrite = true,
+    newFile = true
+  }: {
+    encoding?: BufferEncoding,
+    overwrite?: boolean,
+    newFile?: boolean
+  } = {}
 ) => {
   path = setPath(path);
+  
+  if (newFile && fs.existsSync(path)) {
+    const dir = Path.dirname(path);
+    const ext = Path.extname(path);
+    const baseName = Path.basename(path, ext);
+    let counter = 1;
+
+    while (fs.existsSync(path)) {
+      path = Path.join(dir, `${baseName}(${counter})${ext}`);
+      counter++;
+    }
+  }
+
   fs.mkdirSync(Path.dirname(path), { recursive: true });
   overwrite
     ? fs.writeFileSync(path, data, encoding)
@@ -119,6 +139,7 @@ const copyDir = (srcDir: string, dstDir: string, recursive = true) => {
   fs.cpSync(setPath(srcDir), setPath(dstDir), { recursive });
 };
 
+
 /**
  * find All Files In Folder(Recursively) By Pattern
  * @param folder
@@ -127,7 +148,7 @@ const copyDir = (srcDir: string, dstDir: string, recursive = true) => {
  */
 const findFiles = (
   folder: string,
-  pattern: string = '',
+  pattern: string | RegExp = '',
   arrayOfFiles: string[] = []
 ) => {
   if (!fs.existsSync(folder)) return [];
@@ -138,7 +159,10 @@ const findFiles = (
     if (fs.statSync(folder + '/' + file).isDirectory()) {
       arrayOfFiles = findFiles(folder + '/' + file, pattern, arrayOfFiles);
     } else {
-      if (file.includes(pattern)) {
+      const regex = pattern instanceof RegExp 
+        ? pattern 
+        : new RegExp(pattern.replace(/\*/g, '.*'));
+      if (regex.test(file)) {
         arrayOfFiles.push(Path.join(folder, '/', file));
       }
     }
@@ -148,13 +172,16 @@ const findFiles = (
 };
 
 // base_path의 하위 폴더 중에 이름에 pattern을 포함하는 폴더
-function findFolders(basePath: string, pattern: string = ''): string[] {
+function findFolders(basePath: string, pattern: string | RegExp = ''): string[] {
   const matchedFolders: string[] = [];
-  // base_path 디렉토리 내의 모든 파일과 폴더를 순회합니다.
+  
   for (const entry of fs.readdirSync(basePath)) {
     const fullPath = Path.join(basePath, entry);
-    // 현재 엔트리가 폴더이고, 패턴을 포함한다면 리스트에 추가합니다.
-    if (fs.statSync(fullPath).isDirectory() && entry.includes(pattern)) {
+    const regex = pattern instanceof RegExp 
+      ? pattern 
+      : new RegExp(pattern.replace(/\*/g, '.*'));
+      
+    if (fs.statSync(fullPath).isDirectory() && regex.test(entry)) {
       matchedFolders.push(slashedFolder(fullPath));
     }
   }
@@ -165,6 +192,12 @@ function findFolders(basePath: string, pattern: string = ''): string[] {
  * exists Folder(폴더 존재여부)
  */
 const existsFolder = (folder: string) => fs.existsSync(folder);
+
+
+/**
+ * exists Folder(폴더 존재여부)
+ */
+const exist = (path: string) => fs.existsSync(path);
 
 /**
  * moveFile
@@ -244,6 +277,7 @@ export {
   findFiles, // 파일 목록
   findFolders, // 하위 folder 목록
   existsFolder, // 폴더 존재여부
+  exist, // 파일 존재여부
   moveFile,
   moveFiles,
 };
@@ -262,3 +296,10 @@ export {
 
 // const folders = findFolders("C:\\JnJ-soft\\Playground\\chrome-ts");
 // console.log(folders);
+
+// // saveFile('test.txt', 'Hello, World!');
+// saveJson('test.json', { a: 1, b: 2 });
+// console.log(exist('./test.json'));
+
+// console.log(findFiles('./', 'map'));
+// console.log(findFolders('../', 'blog'));
